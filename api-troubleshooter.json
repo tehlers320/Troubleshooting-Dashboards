@@ -1,38 +1,4 @@
 {
-  "__inputs": [],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.5.0"
-    },
-    {
-      "type": "panel",
-      "id": "heatmap",
-      "name": "Heatmap",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -59,8 +25,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1653996015636,
+  "id": 9,
+  "iteration": 1674231195394,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -114,20 +80,16 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "exemplar": false,
           "expr": "sum(rate(apiserver_request_terminations_total{job=\"$job\"}[$__rate_interval]))",
-          "instant": true,
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
+          "hide": false,
+          "refId": "B"
         }
       ],
       "title": "Request Terminations",
@@ -184,7 +146,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -257,7 +219,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -327,7 +289,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -396,7 +358,7 @@
         },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -459,12 +421,24 @@
           "exemplar": false,
           "expr": "sum(increase(apiserver_request_duration_seconds_bucket{job=\"$job\",subresource=\"\",verb!=\"WATCH\"}[$__rate_interval])) by (le)",
           "format": "heatmap",
-          "hide": false,
+          "hide": true,
           "instant": false,
           "interval": "$__rate_interval",
           "intervalFactor": 1,
           "legendFormat": "{{le}}",
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(apiserver_request_duration_seconds_bucket{job=\"$job\", subresource=\"\",verb!=\"WATCH\"}[$__rate_interval])) by (le)",
+          "hide": false,
+          "legendFormat": "{{le}}",
+          "range": true,
+          "refId": "A"
         }
       ],
       "title": "Core API  Request Duration Heatmap",
@@ -523,13 +497,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "sum by (le)(increase(etcd_request_duration_seconds_bucket{job=\"$job\"}[$__rate_interval]))",
-          "format": "heatmap",
-          "interval": "$__rate_interval",
+          "hide": false,
           "legendFormat": "{{le}}",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Etcd Request Latency",
@@ -741,14 +713,12 @@
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "exemplar": false,
+          "editorMode": "code",
           "expr": "sum by (instance)(max_over_time(apiserver_current_inflight_requests{job=\"$job\"}[$__rate_interval]))",
-          "format": "time_series",
-          "instant": false,
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
+          "hide": false,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Total inflight request",
@@ -845,15 +815,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "sum by (instance,code)(increase(rest_client_requests_total{job=\"$job\", code!~\"2..\", code!~\"<error>\"}[$__rate_interval])) > 0",
-          "format": "time_series",
           "hide": false,
-          "instant": false,
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
           "legendFormat": "{{code}} - {{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "% Client Error Rate - 2m",
@@ -973,12 +939,12 @@
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "exemplar": false,
+          "editorMode": "code",
           "expr": "rate(process_cpu_seconds_total{job=\"$job\"}[$__rate_interval])",
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
+          "hide": false,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "API Server CPU usage in CPU Seconds",
@@ -1073,13 +1039,12 @@
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "exemplar": false,
+          "editorMode": "code",
           "expr": "topk(4, histogram_quantile(0.90, sum without(instance,type,operation) (increase(apiserver_admission_webhook_admission_duration_seconds_bucket{job=\"$job\"}[$__rate_interval]))))",
           "hide": false,
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
           "legendFormat": "{{name}}",
-          "refId": "B"
+          "range": true,
+          "refId": "A"
         }
       ],
       "title": "Admission Webhook Admission Duration -Top 4",
@@ -1176,14 +1141,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "topk(5, code_resource:apiserver_request_total:rate5m)",
           "hide": false,
-          "interval": "5m",
-          "intervalFactor": 1,
           "legendFormat": "{{resource}} - verb: {{verb}} - code: {{code}}",
           "range": true,
-          "refId": "B"
+          "refId": "A"
         }
       ],
       "title": "apiserver request total",
@@ -1240,7 +1202,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -1308,7 +1270,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -1393,7 +1355,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "8.5.9",
       "targets": [
         {
           "datasource": {
@@ -1605,12 +1567,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "topk(5, max without (endpoint,namespace,service) (apiserver_flowcontrol_current_executing_requests{job=\"$job\"}))",
-          "interval": "$__rate_interval",
+          "hide": false,
           "legendFormat": "Flow: {{flow_schema}} --Priority Level: {{priority_level}} -- {{instance}}",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Top executing requests by Flow",
@@ -1702,11 +1663,12 @@
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "exemplar": false,
+          "editorMode": "code",
           "expr": "histogram_quantile(0.90, max without (instance) (increase(apiserver_flowcontrol_request_wait_duration_seconds_bucket{}[$__rate_interval])))",
-          "interval": "$__rate_interval",
+          "hide": false,
           "legendFormat": "{{flow_schema}}",
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Time Request was in queue by flowschema (p90) - Top Instance",
@@ -1800,15 +1762,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "sum without (endpoint,job,namespace,service)(increase(apiserver_flowcontrol_rejected_requests_total{}[$__rate_interval]))",
           "hide": false,
-          "instant": false,
-          "interval": "$__rate_interval",
-          "intervalFactor": 1,
           "legendFormat": "{{flow_schema}} - {{reason}}",
-          "range": false,
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Rejected Requests -2m",
@@ -1901,13 +1859,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "histogram_quantile(0.90, max without (instance) (increase(apiserver_flowcontrol_request_execution_seconds_bucket{job=\"$job\"}[$__rate_interval])))",
-          "instant": false,
-          "interval": "$__rate_interval",
+          "hide": false,
           "legendFormat": "{{flow_schema}} - {{priority_level}}",
-          "rawQuery": true,
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Flowcontrol request execution time p90 - Top Instance",
@@ -1999,13 +1955,11 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "exemplar": false,
           "expr": "topk(5, sum by (instance,priority_level,flow_schema)(rate(apiserver_flowcontrol_request_queue_length_after_enqueue_count{}[$__rate_interval])))",
-          "instant": false,
-          "interval": "$__rate_interval",
+          "hide": false,
           "legendFormat": "Flow: {{flow_schema}} --Priority: {{priority_level}} --{{instance}}",
-          "rawQuery": true,
-          "refId": "A"
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Rate of addition per second",
@@ -2022,7 +1976,11 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "apiserver",
+          "value": "apiserver"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
@@ -2065,7 +2023,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -2079,6 +2037,6 @@
   "timezone": "browser",
   "title": "API Server Troubleshooter v1.6.1",
   "uid": "U3y_Zcb7k",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }
